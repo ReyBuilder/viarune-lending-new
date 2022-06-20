@@ -2,7 +2,7 @@
     <div class="socials">
         <a class="socials__element socials__element_telegram" href="https://t.me/alexasemkain"></a>
         <a class="socials__element socials__element_whatsapp" href="https://wa.me/89131105966"></a>
-        <a class="socials__element socials__element_viber" href="viber:chat?number=%2B9131105966"></a>
+        <a class="socials__element socials__element_viber" href="viber:chat?number=%2B79131105966"></a>
     </div>
 </template>
 
