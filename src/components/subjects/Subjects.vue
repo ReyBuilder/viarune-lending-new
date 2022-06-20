@@ -1,233 +1,76 @@
 <template>
-    <div class="subjects">
-        <h2 class="subjects__heading">Наши предметы</h2>
-        <div class="subjects__filters">
-            <button @click="currentFilters = []"
-                :class="{ 'subjects__filters__element_active': currentFilters.length == 0 }"
-                class="subjects__filters__element button">
-                <span>Все</span>
-            </button>
-            <button v-for="filter in filters" :key="filter" @click="triggerFilter(filter)"
-                :class="{ 'subjects__filters__element_active': isFilterActive(filter) }"
-                class="subjects__filters__element button">
-                <span>{{ filter }}</span>
-            </button>
+    <div class="subjects" id="subjects">
+        <div class="subjects__inner">
+            <h2 class="subjects__heading">Наши предметы</h2>
+            <div class="subjects__filters desktop">
+                <Button buttonStyle="4" v-for="filter in filters" :key="filter" @click="setFilter(filter)"
+                    :selected="isFilterActive(filter)" class="subjects__filters__element">
+                    {{ filter }}
+                </Button>
+            </div>
+            <div class="subjects__filters mobile">
+                <div class="subjects__filters__group">
+                    <Button buttonStyle="4" v-for="filter in mobileFilters1" :key="filter" @click="setFilter(filter)"
+                        :selected="isFilterActive(filter)" class="subjects__filters__element">
+                        {{ filter }}
+                    </Button>
+                </div>
+                <Button buttonStyle="4" v-for="filter in mobileFilters2" :key="filter" @click="setFilter(filter)"
+                    :selected="isFilterActive(filter)" class="subjects__filters__element">
+                    {{ filter }}
+                </Button>
+            </div>
+            <div class="subjects__cards desktop">
+                <Card v-for="card in filteredContent" :key="card.name" :content="card" />
+                <div v-if="filteredContent.length % 2 == 1"></div>
+            </div>
+            <div class="subjects__cards mobile">
+                <Card v-for="card in shownContent" :key="card.name" :content="card" />
+                <div v-if="shownContent.length % 2 == 1"></div>
+            </div>
+            <div class="subjects__show-more mobile">
+                <Button buttonStyle="2" @click="courseButtonClick()" v-if="filteredContent.length > 4"
+                    class="subjects__show-more__button">{{ shown < filteredContent.length ? 'Показать больше' : 'Скрыть'
+                    }}</Button>
+            </div>
         </div>
-        <div class="subjects__cards desktop">
-            <Card v-for="card in filteredContent" :key="card.name" :content="card" />
-            <div v-if="filteredContent.length % 2 == 1"></div>
-        </div>
-        <div class="subjects__cards mobile">
-            <Card v-for="card in filteredContent" :key="card.name" :content="card" />
-            <div v-if="filteredContent.length % 2 == 1"></div>
-        </div>
+        <div class="subjects__nlo" />
     </div>
 </template>
 
 <script>
 import { ref } from 'vue';
 import Card from './Card.vue';
+import Button from '@/components/Button.vue';
 
 export default {
     setup() {
-        const filters = ["Программирование", "Дизайн", "Подготовка к ОГЭ/ЕГЭ", "Школьные предметы"];
-        const content = [
-            {
-                name: "Физика",
-                facts: [
-                    "Восполнение пробелов в знаниях школьной программы",
-                    "Более углублённая программа, отличающаяся от школьной",
-                    "Научим наблюдать и исследовать, а не зубрить",
-                    "Подготовка к контрольным работам и государственным экзаменам"
-                ],
-                tags: ["Школьные предметы", "Подготовка к ОГЭ/ЕГЭ"],
-                age: 12,
-                text: "“— Земля круглая! Это доказано сотни лет назад!<br>" +
-                    "— Ты сам - то в это веришь ? Почему же тогда с обратной стороны ничего не падает ?<br>" +
-                    "— На земле всё удерживает гравитация.<br>" +
-                    "— Слишком сложно, чтобы быть правдой. Вот с черепахой — тут всё ясно.<br>" +
-                    "— Вы не можете отрицать очевидное! Джордано Бруно отдал жизнь ради этой истины!<br>" +
-                    "— Ну это уж совсем не доказательство…”<br>" +
-                    "                                                                м / ф “Смешарики”<br>" +
-                    "На курсе “Физика” вы узнаете, кто такой Джордано Бруно, что такое гравитация, почему земля круглая, а мы с нее не падаем. Познакомитесь с законами, по которым существует Вселенная.",
-                lessons: 516,
-                hours: 32,
-                topics: 2311,
-                students: 520
+        const filters = ["Все", "Программирование", "Дизайн", "Подготовка к ОГЭ/ЕГЭ", "Школьные предметы"];
+        const content = require("@/assets/subjects.json");
+        const currentFilter = ref("Все");
+        const shown = ref(4);
 
-            },
-            {
-                name: "Scratch",
-                facts: [
-                    "Обучение основам программирования учеников на блочном языке программирования Scratch",
-                    "Создание мультфильмов, игр и интерактивных анимаций",
-                    "Развитие у ребёнка алгоритмического, математического, вычислительного мышления",
-                    "Подготовка к олимпиадам и конкурсам"
-                ],
-                tags: ["Программирование"],
-                age: 7,
-                text: "Scratch – платформа для создания игр и мультфильмов. Ученики познакомятся с основами программирования и научатся создавать собственные проекты. Преимущества платформы заключается в том, что для работы не нужно загружать дополнительные программы, достаточно просто перейти на официальный сайт.<br>" +
-                    "Данный курс отлично подойдет для работы как новичкам, так и тем, кто уже знаком с азами программирования.",
-                lessons: 516,
-                hours: 32,
-                topics: 2311,
-                students: 520
-            },
-            {
-                name: "Создание иллюстраций",
-                facts: [
-                    "Изучение востребованного графического редактора Figma",
-                    "Освоение базовой художественной теории: узнаешь все о композиции, симметрии, теории цвета и другое",
-                    "Развитие навыков рисования: от простых фигур до сложных иллюстраций",
-                    "Научим разбираться в трендах иллюстрации, придумывать и рисовать персонажей",
-                    "Работы, выполненные во время обучения, пойдут в Ваше портфолио"
-                ],
-                tags: ["Дизайн"],
-                age: 7,
-                text: "На сегодняшний день хорошие иллюстраторы - востребованные специалисты в различных бизнес направлениях, поэтому курс “Создание иллюстраций” даст Вам базу необходимых знаний. В ходе обучения Вы  познакомитесь с техниками современной иллюстрации, изучите основные инструменты и примените все приобретенные знания на практике. По итогам курса полученных знаний будет достаточно, чтобы начать брать заказы и зарабатывать.",
-                lessons: 516,
-                hours: 32,
-                topics: 2311,
-                students: 520
-            },
-            {
-                name: "Создание дизайна сайта и приложений",
-                facts: [
-                    "Изучение программы Figma – ключевого инструмента веб-дизайнеров по всему миру",
-                    "Развитие технических и аналитических навыков",
-                    "Создание стильного, функционального дизайна сайтов, интерфейсов",
-                    "Научим выстраивать рабочий процесс и организовывать работу по дизайну сайтов и приложений в Figma",
-                    "Расскажем и покажем, как создавать прототипы для устройств с разным разрешением и что такое адаптивные макеты"
-                ],
-                tags: ["Дизайн"],
-                age: 14,
-                text: "Создание дизайна сайтов и приложений - основная деятельность диджитал-дизайнера. Данная деятельность предполагает разработку дизайна, который мы видим на экране телефонов, компьютеров. Курс построен на работе в графическом редакторе Figma - одном из самых популярных инструментов у дизайнеров.<br>" +
-                    "Кому будет полезен наш курс? Курс рассчитан как на людей с нулевой подготовкой, так и на тех, кто уже знаком с данным направлением",
-                lessons: 516,
-                hours: 32,
-                topics: 2311,
-                students: 520
-            },
-            {
-                name: "Проектная деятельность",
-                facts: [
-                    "Поможем с созданием школьных проектов: от формулирования темы, исходя из ваших интересов, до создания продукта",
-                    "Познакомим со всеми этапами создания качественного проекта",
-                    "Развитие исследовательских умений, речевого аппарата, системного мышления",
-                    "Дополнительные баллы к экзаменам",
-                    " Устранение “страха сцены”",
-                    "Возможность участия в научно-практических конференциях",
-                    "Научим ориентироваться в информационном пространстве"
-                ],
-                tags: ["Школьные предметы"],
-                age: 14,
-                text: "Проектная деятельность - учебно-познавательная, творческая или игровая деятельность, результатом которой становится решение какой-либо проблемы, представленное в виде его подробного описания.<br>" +
-                    "Курс, который мы предлагаем, поможет Вам не растеряться в многообразии возможных тем и источников информации, а также станет прекрасным помощником в Ваших будущих проектах.",
-                lessons: 516,
-                hours: 32,
-                topics: 2311,
-                students: 520
-            },
-            {
-                name: "Шахматы",
-                facts: [
-                    "Знакомство с правилами игры, дебютами и эндшпилями, тактикой и стратегией игры, типами атак и защит",
-                    "Развитие памяти, концентрации внимания, критического мышления и стратегического планирования",
-                    "Тренировка логики, целеустремленности и навыка быстрого счёта в уме",
-                    "Подготовка и участие в соревнованиях",
-                    "Научим принимать взвешенное решение, повысим успеваемость в точных науках"
-                ],
-                tags: [],
-                age: 7,
-                text: "Шахматы - настольная логическая игра, сочетающая в себе элементы спортивной борьбы, науки и искусства. Несмотря на то, что игра существует более полутора тысяч лет, она до сих пор вызывает интерес и привлекает все больше новых игроков. Согласно исследованиям, у детей, которые занимаются шахматами, успеваемость выше среднего, а также у них развита дисциплинированность и логическое мышление. Их отличает системность, они готовы действовать на основе анализа ситуации, а не на эмоциональном импульсе.<br>" +
-                    "Полезным курс будет для шахматиста любого уровня.",
-                lessons: 516,
-                hours: 32,
-                topics: 2311,
-                students: 520
-            },
-            {
-                name: "Спортивное программирование",
-                facts: [
-                    "Обучение основам языков программирования C++",
-                    "Анализ типичных ошибок, возникающих при написании кода, устранение их",
-                    "Практикум в решении сложных задач с помощью различных алгоритмов",
-                    "Подготовка учеников к Олимпиадам по программированию – решение типовых задач ВСОШ/РСОШ по информатике (программированию)",
-                    "Участие в олимпиаде во время  обучения на курсе"
-                ],
-                tags: ["Программирование"],
-                age: 14,
-                text: "Спортивное программирование — это одна из разновидностей интеллектуальных игр, которая стоит в одном ряду с шахматами или сборкой кубика Рубика на скорость. Цель «спортсмена» — быстро и безошибочно найти решение проблемы, обойдя конкурентов.<br>" +
-                    "Участие в олимпиадах по программированию - отличный способ проявить себя и показать свои знания, а также повысить свои шансы поступления в высшие учебные заведения и успешного прохождения собеседования. Для успешного прохождения каждого этапа олимпиады нужна серьёзная и системная подготовка, которую Вы сможете получить во время обучения на нашем курсе “Спортивное программирование”.",
-                lessons: 516,
-                hours: 32,
-                topics: 2311,
-                students: 520
-            },
-            {
-                name: "Математика",
-                facts: [
-                    "Помогаем полюбить математику, пробуждаем интерес к учёбе",
-                    "Объяснение тем, отличных от школьной программы, подготовка к олимпиадам и экзаменам",
-                    "Развитие внимательности, точности и аккуратности",
-                    "Совершенствование навыков обобщать и систематизировать",
-                    "Научим видеть закономерности, логически мыслить, последовательно выстраивать операции",
-                ],
-                tags: ["Школьные предметы", "Подготовка к ОГЭ/ЕГЭ"],
-                age: 14,
-                text: "“Математику изучать надобно, поскольку она в порядок ум приводит”, - писал Михаил Васильевич Ломоносов, известный, как обладатель уникального ума. Действительно, занятия математикой приносят много пользы для разностороннего развития личности. Например, развивают интеллект, являясь тренажером для мозга, дают навык логического мышления и многое другое. К тому же математика лежит в основе многих востребованных профессий.<br>" +
-                    "Наш курс делится на три раздела: школьная математика(устранение пробелов в знаниях школьной программы, подготовка к экзаменам), олимпиадная(объяснение тем, отличных от школьной программы, подготовка к олимпиадам) и математика для получения необходимых знаний во время прохождением курса “Спортивное программирование”.Выберите то, что подходит именно Вам.",
-                lessons: 516,
-                hours: 32,
-                topics: 2311,
-                students: 520
-            },
-            {
-                name: "Английский язык",
-                facts: [
-                    "Поможем подтянуть знание школьной программы, повысим Вашу успеваемость",
-                    "Подготовка к олимпиадам и конкурсам по английскому языку, а также государственным экзаменам",
-                    "Развитие памяти, познавательных и коммуникативных способностей, креативности",
-                    "Улучшим Ваши разговорные навыки",
-                    "Приобретение уверенности в себе"
-                ],
-                tags: ["Школьные предметы", "Подготовка к ОГЭ/ЕГЭ"],
-                age: 6,
-                text: "В современном мире английский язык является одним из самых популярных языков мира, он охватил все сферы жизни человека: учеба, работа, досуг, наука. Поэтому мало кто может сказать, что изучение английского языка - дело бесполезное.<br>" +
-                    "Философ Людвиг Витгенштейн писал: “Границы моего языка - границы моего мира”.<br>" +
-                    "Предлагаем Вам расширить границы Вашего личного мира вместе с нашим курсом по английскому языку.<br>" +
-                    "Курс подойдет для тех, кто только решил начать изучение языка, для тех, кто хочет прокачать свои умения, а также для, кто собирается в путешествие и хочет улучшить свои разговорные навыки.",
-                lessons: 516,
-                hours: 32,
-                topics: 2311,
-                students: 520
-            }
-        ];
-        const currentFilters = ref([]);
-        const shown = ref(0);
-
-        return { filters, content, currentFilters, shown };
+        return { filters, content, currentFilter, shown };
     },
     methods: {
         isFilterActive(filter) {
-            return this.currentFilters.find(e => e == filter);
+            return this.currentFilter == filter;
         },
-        triggerFilter(filter) {
-            const l = this.currentFilters.length;
-            this.currentFilters = this.currentFilters.filter((e) => e != filter);
-            if (this.currentFilters.length == l) {
-                this.currentFilters.push(filter);
-            }
+        setFilter(filter) {
+            this.currentFilter = filter;
         },
+        courseButtonClick() {
+            this.shown = (this.shown == this.filteredContent.length) ? 4 : this.shown + 1;
+        }
     },
     computed: {
         filteredContent() {
-            if (this.currentFilters.length == 0) {
+            if (this.currentFilter == "Все") {
                 return this.content;
             }
             return this.content.filter((e) => {
                 for (const i in e.tags) {
-                    if (this.currentFilters.find(item => item == e.tags[i])) {
+                    if (this.currentFilter == e.tags[i]) {
                         return true;
                     }
                 }
@@ -235,75 +78,85 @@ export default {
             });
         },
         shownContent() {
-            const filteredContent = this.filteredContent();
+            const filteredContent = this.filteredContent;
             if (filteredContent.length < this.shown) {
                 return filteredContent;
             }
             return filteredContent.slice(0, this.shown);
+        },
+        mobileFilters1() {
+            return this.filters.slice(0, 2);
+        },
+        mobileFilters2() {
+            return this.filters.slice(2);
         }
     },
-    components: { Card }
+    components: { Card, Button }
 }
 </script>
 
 <style scoped>
+@media screen and (min-width: 1200px) {
+    .subjects__nlo {
+        width: 330px;
+        height: 236px;
+        background-image: url("@/assets/nlo.svg");
+        position: absolute;
+        top: -130px;
+        left: 65px;
+    }
+}
+
+.subjects {
+    position: relative;
+}
+
 .subjects__heading {
     text-align: center;
 }
 
-.subjects__filters__element {
-    padding: 4px;
-    background: transparent;
-    border-radius: 30px;
-}
-
-.subjects__filters__element:focus {
-    padding: 3px;
-    border: 1px solid #17084D;
-}
-
-.subjects__filters__element>span {
-    background: rgba(68, 36, 183, 0.1);
-    color: #17084D;
-    font-weight: 500;
-    padding: 11px 30px;
-    border-radius: 20px;
-    font-size: 14px;
-    line-height: 17px;
-}
-
-.subjects__filters__element_active>span {
-    background: linear-gradient(97.42deg, #FB7A0D 0.1%, #FB9C0D 115.11%);
-    color: #ffffff;
-    font-weight: 700;
-}
-
-.subjects__filters__element:hover>span {
-    padding: 10px 29px;
-    color: #ffffff;
-    font-weight: 700;
-    border: 1px #FB7A0D solid;
-}
-
-.subjects__filters__element_active:hover>span {
-    padding: 11px 30px;
-    border: none;
-}
-
-.subjects__filters {
-    display: flex;
-    overflow: auto;
-}
-
 .subjects__cards {
-    margin-top: 28px;
+    margin-top: 22px;
 }
 
 .subjects__heading {
-    margin-bottom: 66px;
+    margin-bottom: 60px;
 }
 
-@media screen and (min-width: 750px) {
+.subjects__show-more__button {
+    display: block !important;
+    margin: 70px auto 0 auto !important;
+}
+
+.subjects__show-more__button {
+    max-width: 300px !important;
+}
+
+@media screen and (max-width: 999px) {
+
+    .subjects__cards.mobile,
+    .subjects__show-more.mobile {
+        display: block !important;
+    }
+
+    .subjects__cards.desktop {
+        display: none !important;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+
+    .subjects__cards>.mobile,
+    .subjects__show-more>.mobile {
+        display: none !important;
+    }
+
+    .subjects__cards>.desktop {
+        display: block !important;
+    }
+}
+
+@media screen and (min-width: 770px) {
     .subjects__cards {
         display: flex;
         flex-wrap: wrap;
@@ -318,24 +171,26 @@ export default {
 
     .subjects__filters {
         position: relative;
-        margin-left: -4px;
         display: flex;
         overflow: auto;
+        padding: 6px;
     }
 
-    .subjects {
+    .subjects__inner {
         max-width: 1000px;
         padding: 0 60px;
         margin: 200px auto 0 auto;
     }
 
     .subjects__filters__element {
-        margin-right: 12px;
+        margin-right: 16px !important;
         flex-shrink: 0;
+        flex-shrink: 0;
+        flex-grow: 0;
     }
 
     .subjects__filters__element:last-child {
-        margin-right: 0;
+        margin-right: 0 !important;
     }
 
     .subjects__cards>*:nth-child(2n + 1) {
@@ -343,8 +198,8 @@ export default {
     }
 }
 
-@media screen and (max-width: 749px) {
-    .subjects {
+@media screen and (max-width: 769px) {
+    .subjects__inner {
         margin-top: 150px;
     }
 
@@ -355,12 +210,39 @@ export default {
     .subjects__cards {
         padding: 0 16px;
     }
-}
 
-@media screen and (max-width: 999px) {
+    .subjects__filters__group {
+        display: flex;
+    }
+
+    .subjects__filters__group .subjects__filters__element:first-child {
+        width: auto;
+        margin-right: 14px !important;
+    }
+
     .subjects__filters__element {
-        flex-shrink: 0;
-        flex-grow: 0;
+        display: block;
+        margin-bottom: 17px !important;
+    }
+
+    .subjects__filters__group .subjects__filters__element {
+        margin-bottom: 18px;
+    }
+
+    .subjects__filters__element,
+    .subjects__filters__element>span {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .subjects__show-more__button,
+    .subjects__show-more__button>span {
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .subjects__show-more {
+        margin: 70px 36px 0 36px;
     }
 }
 </style>

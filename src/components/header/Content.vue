@@ -8,11 +8,25 @@
         <div class="content__text content__text_mobile">
             Мы работаем, чтобы сделать<br />образование комфортным,<br />доступным и качественным.
         </div>
-        <a class="content__button" href="#">
-            Выбрать предметы
-        </a>
+        <div class="content__button__wrapper">
+            <Button buttonStyle="1" class="content__button" @click="smoothScroll('subjects')">Выбрать предметы</Button>
+        </div>
     </div>
 </template>
+
+<script>
+import smoothScroll from "@/scripts/smoothScroll";
+import Button from "@/components/Button.vue"
+
+export default {
+    setup() {
+        return { smoothScroll };
+    },
+    components: {
+        Button
+    }
+}
+</script>
 
 <style scoped>
 .content__heading1 {
@@ -44,25 +58,9 @@
     color: #ffffff;
 }
 
-.content__button {
-    background: linear-gradient(97.42deg, #FB7A0D 0.1%, #FB9C0D 115.11%);
-    border-radius: 10px;
-
-    display: inline-block;
-
-    font-family: 'Gilroy';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 22px;
-
-    color: #ffffff;
-}
-
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 770px) {
     .content__button {
-        padding: 19px 35px;
-        margin-top: 34px;
+        margin-top: 32px;
     }
 
     .content {
@@ -74,15 +72,7 @@
     }
 }
 
-@media screen and (max-width: 749px) {
-    .content__button {
-        width: 300px;
-        height: 60px;
-        margin: 20px auto 0 auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+@media screen and (max-width: 769px) {
 
     .content__heading1,
     .content__heading2,
@@ -96,6 +86,16 @@
 
     .content__text_desktop {
         display: none;
+    }
+
+    .content__button__wrapper {
+        margin: 18px 38px 0 38px;
+    }
+
+    .content__button,
+    .content__button>span {
+        box-sizing: border-box;
+        width: 100%;
     }
 }
 </style>

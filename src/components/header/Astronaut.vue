@@ -1,18 +1,18 @@
 <template>
     <div class="astronaut">
-        <div class="astronaut__spacer-left" />
-        <div class="astronaut__image astronaut__image_desktop">
-            <img class="astronaut__image_desktop" src="@/assets/astronaut.svg" />
-        </div>
-        <div class="astronaut__image astronaut__image_mobile">
-            <img class="astronaut__image_mobile" src="@/assets/astronaut_mobile.svg">
-        </div>
-        <div class="astronaut__spacer-right" />
+        <div class="astronaut__spacer-left desktop" />
+        <div class="astronaut__image" />
+        <div class="astronaut__spacer-right desktop" />
     </div>
 </template>
 
 <style scoped>
-@media screen and (min-width: 750px) {
+.astronaut__image {
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+@media screen and (min-width: 770px) {
     .astronaut {
         position: absolute;
         height: 881px;
@@ -34,27 +34,21 @@
     }
 
     .astronaut__image {
+        margin-top: 162px;
         flex-grow: 0;
         flex-shrink: 0;
-    }
-
-    .astronaut__image img {
-        margin-top: 162px;
-    }
-
-    .astronaut__image_mobile {
-        display: none;
+        height: 585px;
+        width: 678px;
+        background-image: url("@/assets/astronaut.svg");
     }
 }
 
-@media screen and (max-width: 749px) {
-    .astronaut__image_desktop {
-        display: none;
-    }
-
-    .astronaut__image_mobile {
-        width: 363px;
-        margin: auto;
+@media screen and (max-width: 769px) {
+    .astronaut__image {
+        height: 370px;
+        background-image: url("@/assets/astronaut_mobile.svg");
+        background-repeat: no-repeat;
+        background-position: center center;
     }
 }
 </style>

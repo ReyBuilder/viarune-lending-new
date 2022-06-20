@@ -18,13 +18,13 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 770px) {
   .menu_mobile {
     display: none;
   }
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 769px) {
   .menu_desktop {
     display: none;
   }
