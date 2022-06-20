@@ -36,13 +36,16 @@
                     <Checkbox v-model="data.payAfter" class="popup__form__payafter__input" />
                     <div class="popup__form__payafter__text">Хочу занятия получить в рассрочку</div>
                 </div>
-                <Button buttonStyle="2" class="popup__form__button">Записаться на вводный урок</Button>
+                <Button @click="smoothScroll('register')" buttonStyle="2" class="popup__form__button">
+                    Записаться на вводный урок
+                </Button>
             </div>
         </div>
     </Popup>
 </template>
 
 <script>
+import smoothScroll from "@/scripts/smoothScroll";
 import Popup from "./Popup.vue";
 import Checkbox from "../Checkbox.vue";
 import Button from "@/components/Button.vue";
@@ -51,7 +54,7 @@ import dataStore from "@/stores/data";
 export default {
     setup() {
         const data = dataStore();
-        return { data };
+        return { data, smoothScroll };
     },
     components: {
         Popup,
