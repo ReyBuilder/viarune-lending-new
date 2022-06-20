@@ -36,7 +36,7 @@
                     <Checkbox v-model="data.payAfter" class="popup__form__payafter__input" />
                     <div class="popup__form__payafter__text">Хочу занятия получить в рассрочку</div>
                 </div>
-                <Button @click="smoothScroll('register')" buttonStyle="2" class="popup__form__button">
+                <Button @click="" buttonStyle="2" class="popup__form__button">
                     Записаться на вводный урок
                 </Button>
             </div>
@@ -70,6 +70,13 @@ export default {
         },
         totalPrice() {
             return this.price * this.data.lessonsAmount;
+        }
+    },
+    methods: {
+        async gotoRegister() {
+            this.$emit('close');
+            await new Promise(r => setTimeout(r, 1));
+            smoothScroll('register');
         }
     },
     props: ['active'],
