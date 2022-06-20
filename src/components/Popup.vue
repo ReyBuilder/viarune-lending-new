@@ -1,6 +1,6 @@
 <template>
     <Teleport to="body">
-        <div class="popup" v-show="activeRef">
+        <div class="popup" v-show="activeRef" @click="$emit('close')">
             <slot />
         </div>
     </Teleport>
@@ -19,11 +19,23 @@ export default {
     props: [
         'active'
     ],
+    emits: ['close'],
     watch: {
         activeRef(v) {
             this.popupActive.set(v);
         }
-    },
-    emits: ['close']
+    }
 }
 </script>
+
+<style scoped>
+.popup {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>

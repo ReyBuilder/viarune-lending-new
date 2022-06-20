@@ -13,25 +13,27 @@
             </div>
         </div>
         <div class="card__buttons">
-            <button class="card__buttons__element button">
-                <span>Выбрать предмет</span>
-            </button>
-            <button class="card__buttons__element button" @click="active = true">
-                <span>Подробнее</span>
-            </button>
+            <Button buttonStyle="2" @click="subjects.addSelected(content.id)" :selected="isSubjectSelected(content.id)"
+                :disabled="isSubjectSelected(content.id)" class="card__buttons__element">{{
+                        !isSubjectSelected(content.id) ? "Выбрать предмет" : "Предмет выбран"
+                }}</Button>
+            <Button buttonStyle="3" class="card__buttons__element" @click="active = true">Подробнее</Button>
         </div>
-        <Popup :active="active" :content="content" @close="active = false"></Popup>
+        <Popup :active="active" :content="content" @close="active = false" />
     </div>
 </template>
 
 <script>
 import { ref } from 'vue';
 import Popup from './Popup.vue';
+import subjectsStore from '@/stores/subjects.js';
+import Button from '@/components/Button.vue';
 
 export default {
     setup() {
+        const subjects = subjectsStore();
         const active = ref(false);
-        return { active };
+        return { active, isSubjectSelected: subjects.isSubjectSelected, subjects };
     },
     props: ['content'],
     computed: {
@@ -41,7 +43,9 @@ export default {
     },
     components: {
         Popup,
-    }
+        Button
+    },
+    emits: ['checkSubject']
 }
 </script>
 
@@ -96,55 +100,22 @@ export default {
     flex-shrink: 0;
 }
 
-.card__buttons__element:nth-child(2)>span {
-    border: 1px solid #4424B74D;
-    box-sizing: border-box;
-    background: linear-gradient(141.18deg, #30045C -8.71%, #58048B 104.75%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
-}
-
-.card__buttons__element:nth-child(2):hover>span {
-    background: linear-gradient(97.42deg, #FB7A0D 0.1%, #FB9C0D 115.11%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
-    border: 1px solid #FB7A0D;
-}
-
-.card__buttons__element:nth-child(2):active>span {
-    background: linear-gradient(97.42deg, #FB7A0D 0.1%, #FB9C0D 115.11%);
-    text-fill-color: initial;
-    -webkit-text-fill-color: initial;
-    color: #ffffff;
-}
-
-.card__buttons__element:nth-child(2):active>span>span {
-    color: #ffffff;
-}
-
 @media screen and (min-width: 1000px) {
     .card__buttons {
         margin-top: 14px;
         display: flex;
-        justify-content: space-between;
     }
 
     .card__buttons__element {
         display: block;
         position: relative;
-        margin-bottom: -4px;
+        flex-grow: 1;
+        flex-basis: 0;
+        padding: 16px 0 !important;
     }
 
-    .card__buttons__element:nth-child(1) {
-        margin-left: -4px;
-    }
-
-    .card__buttons__element:nth-child(2) {
-        margin-right: -4px;
+    .card__buttons__element:first-child {
+        margin-right: 20px;
     }
 }
 

@@ -1,16 +1,14 @@
 <template>
-    <div class="important">
+    <div class="important" id="important">
         <h2 class="important__heading">Важно знать родителям и ученикам</h2>
         <div class="important__content desktop">
-            <div class="important__content__section">
+            <div class="important__content__section important__content__section_left">
                 <p v-for="element in contentLeft" :key="element" class="important__content__section__text">{{
                         element
                 }}</p>
             </div>
-            <div class="important__content__image">
-                <img src="@/assets/alien.svg">
-            </div>
-            <div class="important__content__section">
+            <div class="important__content__image" />
+            <div class="important__content__section important__content__section_right">
                 <p v-for="element in contentRight" :key="element" class="important__content__section__text">{{
                         element
                 }}</p>
@@ -76,6 +74,14 @@ export default {
     margin-bottom: 30px;
 }
 
+.important__content__image {
+    height: 488px;
+    width: 261px;
+    background-image: url("@/assets/astronaut-important.svg");
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
 @media screen and (min-width: 1000px) {
     .important {
         max-width: 1000px;
@@ -104,7 +110,7 @@ export default {
     }
 }
 
-@media screen and (min-width: 750px) and (max-width: 999px) {
+@media screen and (min-width: 770px) and (max-width: 999px) {
     .important__content {
         margin-top: 70px;
         display: flex;
@@ -122,9 +128,21 @@ export default {
     .important__content_desktop {
         display: none;
     }
+
+    .important__content__section_left {
+        margin-right: 10px;
+    }
+
+    .important__content__section_right {
+        margin-left: 10px;
+    }
+
+    .important__content__image {
+        flex-shrink: 0;
+    }
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 769px) {
     .important__content {
         margin-top: 40px;
     }
@@ -143,11 +161,7 @@ export default {
 
     .important__content__image {
         margin-top: 70px;
-        height: 534px;
-        text-align: center;
-        background-image: url("@/assets/alien.svg");
-        background-position: center center;
-        background-repeat: no-repeat;
+        width: 100%;
     }
 }
 </style>

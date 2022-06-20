@@ -1,5 +1,5 @@
 <template>
-    <div class="about">
+    <div class="about" id="about">
         <div class="about__inner">
             <h2 class="about__heading">О школе</h2>
             <div class="about__content">
@@ -103,13 +103,13 @@ export default {
     }
 }
 
-@media screen and (max-width: 1599px) and (min-width: 750px) {
+@media screen and (max-width: 1599px) and (min-width: 770px) {
     .about__rocket {
         display: none;
     }
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 769px) {
     .about__inner {
         padding: 0 38px;
     }

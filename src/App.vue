@@ -16,27 +16,36 @@ export default {
 <style>
 @import url(@/assets/fonts/fonts.css);
 
-body.popupActive {
-  overflow: hidden;
+@media screen and (min-width: 770px) {
+  body.popupActive {
+    overflow: hidden;
+  }
 }
 
+@media screen and (max-width: 769px) {
+  body.popupActive {
+    overflow: hidden;
+  }
+}
+
+html,
 body {
+  width: 100%;
   margin: 0;
   overflow-x: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 #app {
+  width: 100%;
   font-family: "Gilroy";
   font-style: normal;
   font-weight: 500;
   line-height: 19px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  color: #000000;
-  text-decoration: none;
 }
 
 h2 {
@@ -92,53 +101,13 @@ p.age {
   margin: 0;
 }
 
-button.button {
-  display: inline-block;
-  padding: 4px;
-  outline: none;
-  border: none;
-  margin: 0;
-  cursor: pointer;
-  user-select: none;
-  border-radius: 10px;
-
-  background: #ffffff;
-}
-
-button.button:focus {
-  padding: 3px;
-  border: 1px solid #17084D;
-}
-
-button.button>span {
-  font-family: 'Gilroy';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 22px;
-  color: #ffffff;
-  background: linear-gradient(141.18deg, #30045C -8.71%, #58048B 104.75%);
-  padding: 16px 32px;
-  display: inline-block;
-  border-radius: 10px;
-  user-select: none;
-}
-
-button.button:hover>span {
-  background: linear-gradient(97.42deg, #FB7A0D 0.1%, #FB9C0D 115.11%);
-}
-
-button.button:active>span {
-  background: #FB7A0D;
-}
-
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 770px) {
   .mobile {
     display: none !important;
   }
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 769px) {
   .desktop {
     display: none !important;
   }

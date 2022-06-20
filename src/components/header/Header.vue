@@ -31,7 +31,7 @@ export default {
   user-select: none;
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 770px) {
   .header__wrapper {
     height: 881px;
     background-image: url("@/assets/header_bg.svg");
@@ -46,7 +46,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 769px) {
   .header__wrapper {
     background-image: url("@/assets/header_bg_mobile.svg");
     background-position: center bottom;
