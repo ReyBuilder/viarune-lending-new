@@ -36,7 +36,7 @@
                     <Checkbox v-model="data.payAfter" class="popup__form__payafter__input" />
                     <div class="popup__form__payafter__text">Хочу занятия получить в рассрочку</div>
                 </div>
-                <Button @click="" buttonStyle="2" class="popup__form__button">
+                <Button @click="gotoRegister()" buttonStyle="2" class="popup__form__button">
                     Записаться на вводный урок
                 </Button>
             </div>
