@@ -3,7 +3,7 @@
         <div class="popup">
             <h2 class="popup__heading">Выберите количество занятий</h2>
             <div class="popup__form">
-                <div v-show="data.payAfter" class="popup__discount__wrapper">
+                <div v-show="!data.payAfter" class="popup__discount__wrapper">
                     <div class="popup__discount">Скидка -15%</div>
                 </div>
                 <h4 class="popup__form__heading">Выберите необходимое количество занятий и узнайте стоимость</h4>
