@@ -31,9 +31,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.popupActive {
-    overflow: hidden;
-}
-</style>

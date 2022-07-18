@@ -40,8 +40,7 @@ export default {
 
 <style scoped>
 .popup {
-    padding: 65px 0 0 38px;
-    height: 100vh;
+    padding: 65px 0 20px 38px;
     width: 100vw;
     background: #ffffff;
 }

@@ -106,5 +106,9 @@ export default {
     .buy__content__label {
         margin-right: 40px;
     }
+
+    .buy__content__header__element__text {
+        max-width: 490px;
+    }
 }
 </style>

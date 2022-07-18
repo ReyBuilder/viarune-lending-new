@@ -39,29 +39,6 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (max-width: 769px) {
-    .footer {
-        display: block;
-        margin: 60px auto;
-    }
-
-    .footer__element {
-        margin-bottom: 30px;
-    }
-
-    .footer__element:last-child {
-        margin-bottom: 0;
-    }
-}
-
-@media screen and (min-width: 770px) {
-    .footer {
-        display: flex;
-        justify-content: space-between;
-        margin: 160px auto 100px auto;
-    }
-}
-
 .footer {
     max-width: 1000px;
     padding: 0 60px;
@@ -94,5 +71,35 @@ a.footer__element__content__element {
 
 .footer__element__content__element:last-child {
     margin-bottom: 0;
+}
+
+@media screen and (max-width: 769px) {
+    .footer {
+        display: block;
+        margin: 38px auto;
+        padding: 0 38px;
+    }
+
+    .footer__element {
+        margin-bottom: 30px;
+    }
+
+    .footer__element:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media screen and (min-width: 770px) {
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        margin: 160px auto 100px auto;
+    }
+
+    .footer__element {
+        flex-basis: 0;
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
 }
 </style>

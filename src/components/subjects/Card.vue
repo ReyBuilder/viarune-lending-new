@@ -72,6 +72,7 @@ export default {
 
 .card__content__header__heading {
     margin-top: 10px;
+    margin-right: 8px;
 }
 
 .card__content__header {
@@ -98,6 +99,10 @@ export default {
     margin-right: 10px;
     flex-grow: 0;
     flex-shrink: 0;
+}
+
+.card__content__header__age {
+    padding-left: 15px;
 }
 
 @media screen and (min-width: 1000px) {

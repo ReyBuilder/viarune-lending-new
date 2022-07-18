@@ -257,7 +257,6 @@ export default {
     }
 
     .popup {
-        height: 100vh;
         width: 100vw;
     }
 

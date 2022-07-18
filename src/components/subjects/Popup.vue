@@ -160,10 +160,10 @@ export default {
 }
 
 @media screen and (max-width: 769px) {
-    .popup {
-        height: 100vh;
-    }
 
+    .popup {
+        padding-bottom: 20px;
+    }
     .popup__header {
         margin: 20px 10px 0 20px;
     }

@@ -128,7 +128,6 @@ textarea.popup__form__input {
     }
 
     .popup {
-        height: 100vh;
         width: 100vw;
     }
 

@@ -29,9 +29,9 @@
                 <div v-if="shownContent.length % 2 == 1"></div>
             </div>
             <div class="subjects__show-more mobile">
-                <Button buttonStyle="2" @click="courseButtonClick()" v-if="filteredContent.length > 4"
-                    class="subjects__show-more__button">{{ shown < filteredContent.length ? 'Показать больше' : 'Скрыть'
-                    }}</Button>
+                <Button buttonStyle="2" @click="this.shown = !this.shown" v-if="filteredContent.length > 4"
+                    class="subjects__show-more__button">{{ !this.shown ? 'Показать больше' : 'Скрыть'}}
+                </Button>
             </div>
         </div>
         <div class="subjects__nlo" />
@@ -48,7 +48,7 @@ export default {
         const filters = ["Все", "Программирование", "Дизайн", "Подготовка к ОГЭ/ЕГЭ", "Школьные предметы"];
         const content = require("@/assets/subjects.json");
         const currentFilter = ref("Все");
-        const shown = ref(4);
+        const shown = ref(false);
 
         return { filters, content, currentFilter, shown };
     },
@@ -58,9 +58,6 @@ export default {
         },
         setFilter(filter) {
             this.currentFilter = filter;
-        },
-        courseButtonClick() {
-            this.shown = (this.shown == this.filteredContent.length) ? 4 : this.shown + 1;
         }
     },
     computed: {
@@ -78,11 +75,7 @@ export default {
             });
         },
         shownContent() {
-            const filteredContent = this.filteredContent;
-            if (filteredContent.length < this.shown) {
-                return filteredContent;
-            }
-            return filteredContent.slice(0, this.shown);
+            return this.shown ? this.filteredContent : this.filteredContent.slice(0, 4);
         },
         mobileFilters1() {
             return this.filters.slice(0, 2);
@@ -191,10 +184,6 @@ export default {
 
     .subjects__filters__element:last-child {
         margin-right: 0 !important;
-    }
-
-    .subjects__cards>*:nth-child(2n + 1) {
-        margin-right: 20px;
     }
 }
 

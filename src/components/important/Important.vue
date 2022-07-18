@@ -60,18 +60,21 @@ export default {
 }
 
 .important__content__section__text::before {
-    display: inline-block;
+    display: block;
     content: ' ';
     width: 8px;
     height: 8px;
     background: #17084D;
     border-radius: 50%;
     margin-right: 10px;
-    margin-bottom: 2px;
+    margin-top: 5px;
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 .important__content__section__text {
     margin-bottom: 30px;
+    display: flex;
 }
 
 .important__content__image {
@@ -145,10 +148,6 @@ export default {
 @media screen and (max-width: 769px) {
     .important__content {
         margin-top: 40px;
-    }
-
-    .important__heading {
-        margin: 0 36px;
     }
 
     .important__content__section {
